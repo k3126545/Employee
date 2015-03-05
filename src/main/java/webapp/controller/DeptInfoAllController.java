@@ -24,15 +24,15 @@ import webapp.service.DeptInfoService;
 /**
  * Servlet implementation class DeptController
  */
-@WebServlet("/dept/info")
-public class DeptInfoController extends HttpServlet {
+@WebServlet("/dept/infoall")
+public class DeptInfoAllController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static Log log = LogFactory.getLog(DeptInfoController.class);
+    private static Log log = LogFactory.getLog(DeptInfoAllController.class);
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeptInfoController() {
+    public DeptInfoAllController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -66,21 +66,11 @@ public class DeptInfoController extends HttpServlet {
 		out.println("<h1>## dept called </h1>");
 		
 		DeptInfoService service = factory.getBean(DeptInfoService.class);
-		Dept dept = service.getDeptInfo(10);
-		request.setAttribute("dept", dept);
-		
-		Dept dept2 = service.getDeptInfoWithEmps(10);
-		request.setAttribute("dept2", dept2);
 		
 		List<Dept> list = service.getDeptInfoAll();
 		request.setAttribute("list", list);
-		
-//		log.info((List<Emp>)dept2.getEmps());
-//		List<Emp> e = dept2.getEmps();
-////		log.info("235weatgr@$%@$%@$"+e.getEmpno()+" "+e.getJob());
-//		request.setAttribute("e", e);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/dept/info.jsp");
+				
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/dept/infoall.jsp");
 		rd.forward(request, response);
 		
 		

@@ -28,7 +28,7 @@ public class DeptDaoTest {
 	ApplicationContext factory;
 
 	@Test
-	public void testSelectByDeptno() throws SQLException {
+	public void test1_SelectByDeptno() throws SQLException {
 		log.info("Start selectByDeptno");
 		DeptDao dao = factory.getBean(DeptDao.class);
 		
@@ -40,7 +40,7 @@ public class DeptDaoTest {
 	}
 	
 	@Test
-	public void testSelectByDeptnoWithEmps() throws SQLException {
+	public void test2_SelectByDeptnoWithEmps() throws SQLException {
 		log.info("Start selectByDeptnoWithEmps");
 		DeptDao dao = factory.getBean(DeptDao.class);
 		
@@ -49,6 +49,21 @@ public class DeptDaoTest {
 		
 		log.info("##### "+dept.getDeptno()+ " "+dept.getDname()+" "+dept.getLoc());
 		
+	}
+	
+	@Test
+	public void test3_SelectAll() {
+		log.info("Start SelectAll");
+		DeptDao dao = factory.getBean(DeptDao.class);
+		
+		List<Dept> list = dao.selectAll();
+		assertNotNull(list);
+		
+		for(Dept d : list){
+			log.info("deptno : "+d.getDeptno());
+			log.info("dname : "+d.getDname());
+			log.info("loc : "+d.getLoc());
+		}
 	}
 
 }

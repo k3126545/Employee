@@ -62,4 +62,21 @@ public class DeptInfoServiceTest {
 						" "+e.getHiredate()+" "+e.getSal()+" "+e.getComm());
 		}
 	}
+	
+	@Test
+	public void testGetDeptInfoAll() {
+		log.info("###@@@ testGetDeptInfoAll()");
+		
+		DeptInfoService service = factory.getBean(DeptInfoService.class);
+		
+		List<Dept> list = service.getDeptInfoAll();
+		assertNotNull(list);
+		
+		for(Dept d : list){
+			log.info("deptno : "+d.getDeptno());
+			log.info("dname : "+d.getDname());
+			log.info("loc : "+d.getLoc());
+		}
+	}
+	
 }

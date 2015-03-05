@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,7 +23,9 @@ import webapp.util.GlobalVars;
 
 public class jdbcDeptDao implements DeptDao{
 
-	static Logger log = Logger.getLogger(jdbcDeptDao.class);
+//	static Logger log = Logger.getLogger(jdbcDeptDao.class);
+	static Log log = LogFactory.getLog(jdbcDeptDao.class);
+	
 	DataSource dataSource;
 	
 	@Override
@@ -102,14 +106,68 @@ public class jdbcDeptDao implements DeptDao{
 
 	@Override
 	public List<Dept> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("###########");
+		log.info("selectAll()");
+		log.info("###########");
+		
+		Connection con = DataSourceUtils.getConnection(dataSource);
+		
+		Dept dept=null;
+		List<Dept> list=null;
+		try {
+			PreparedStatement psmt = con.prepareStatement(SELECT_ALL);
+			
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()){
+				if(list==null)
+					list = new ArrayList<Dept>();
+				
+				dept = new Dept();
+				dept.setDeptno(rs.getInt("deptno"));
+				dept.setDname(rs.getString("dname"));
+				dept.setLoc(rs.getString("loc"));
+				list.add(dept);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataRetrievalFailureException("selectAll()", e);
+		}
+		
+		return list;
 	}
 
 	@Override
 	public List<Dept> selectAllWithEmps() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("###################");
+		log.info("selectAllWithEmps()");
+		log.info("###################");
+		
+		Connection con = DataSourceUtils.getConnection(dataSource);
+		List<Dept> list=null;
+		List<Emp> emps=null;
+		try {
+			PreparedStatement psmt = con.prepareStatement(SELECT_ALL_WITH_EMPS);
+			
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()){
+				if(list==null)
+					list = new ArrayList<Dept>();
+				
+				Dept dept = new Dept();
+				dept.setDeptno(rs.getInt("deptno"));
+				dept.setDname(rs.getString("dname"));
+				dept.setLoc(rs.getString("loc"));
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override
