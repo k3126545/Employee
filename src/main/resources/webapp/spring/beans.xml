@@ -22,7 +22,8 @@
 		</list>
 	</property>
 </bean>
-<!-- DeptDao.xml을 new함 -->
+
+<!-- DeptDao.xml을 new함 --> 
 <bean id="deptDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	<property name="mapperInterface" value="webapp.dao.DeptDao"/>
@@ -33,6 +34,10 @@
 <!-- </bean> -->
 
 <!-- <bean id="deptDao" class="webapp.dao.impl.jdbcDeptDao"> -->
+<!-- 	<property name="dataSource" ref="dataSource"/> -->
+<!-- </bean> -->
+
+<!-- <bean id="deptDao" class="webapp.dao.impl.MyDeptDao"> -->
 <!-- 	<property name="dataSource" ref="dataSource"/> -->
 <!-- </bean> -->
 

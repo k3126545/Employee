@@ -21,10 +21,10 @@ import webapp.model.Dept;
 import webapp.model.Emp;
 import webapp.util.GlobalVars;
 
-public class jdbcDeptDao implements DeptDao{
+public class MyDeptDao implements DeptDao{
 
 //	static Logger log = Logger.getLogger(jdbcDeptDao.class);
-	static Log log = LogFactory.getLog(jdbcDeptDao.class);
+	static Log log = LogFactory.getLog(MyDeptDao.class);
 	
 	DataSource dataSource;
 	
@@ -146,24 +146,40 @@ public class jdbcDeptDao implements DeptDao{
 		Connection con = DataSourceUtils.getConnection(dataSource);
 		List<Dept> list=null;
 		List<Emp> emps=null;
+		Dept dept = null;
+		int index=0;
 		try {
 			PreparedStatement psmt = con.prepareStatement(SELECT_ALL_WITH_EMPS);
+			
 			ResultSet rs = psmt.executeQuery();
 			
-			Dept dept = null;
-			
 			while(rs.next()){
-				if(list==null)
+				if(dept==null){
+					dept = new Dept();
+					dept.setDeptno(rs.getInt("deptno"));
+					index = dept.getDeptno();
+					dept.setDname(rs.getString("dname"));
+					dept.setLoc(rs.getString("loc"));
+					
 					list = new ArrayList<Dept>();
-				
-				Dept d = new Dept(rs.getInt("deptno"), rs.getString("dname"), rs.getString("loc"));
-				d.setEmps(new ArrayList<Emp>());
-				
-				if(!d.equals(dept)){
-					list.add(d);
-					dept = d;
+					emps = new ArrayList<Emp>();
 				}
+				dept.setDeptno(rs.getInt("deptno"));
 				
+				if(index != dept.getDeptno().intValue())
+				{
+					dept.setDeptno(index);
+					dept.setEmps(emps);
+					list.add(dept);
+					
+					emps = new ArrayList<Emp>();
+					
+					dept = new Dept();
+					dept.setDeptno(rs.getInt("deptno"));
+					index = dept.getDeptno();
+					dept.setDname(rs.getString("dname"));
+					dept.setLoc(rs.getString("loc"));
+				}
 				Emp emp = new Emp();
 				emp.setEmpno(rs.getInt("empno"));
 				emp.setEname(rs.getString("ename"));
@@ -173,10 +189,10 @@ public class jdbcDeptDao implements DeptDao{
 				emp.setSal(rs.getFloat("sal"));
 				emp.setComm(rs.getFloat("comm"));
 				
-				dept.getEmps().add(emp);
-				
-				
+				emps.add(emp);
 			}
+			dept.setEmps(emps);
+			list.add(dept);
 			
 		} catch (SQLException e) {
 			throw new DataRetrievalFailureException("selectAllWithEmps() fail", e);
