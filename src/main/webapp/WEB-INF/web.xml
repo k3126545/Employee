@@ -9,16 +9,35 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:/webapp/spring/beans.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
   
-  <!-- needed for ContextLoaderListener -->
+<!--   MyListener Test -->
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/webapp/spring/beans.xml</param-value>
+	    <param-name>className</param-name>
+	    <param-value>mysql.mysql</param-value>
 	</context-param>
-
-	<!-- Bootstraps the root web application context before servlet initialization -->
+	<context-param>
+	    <param-name>url</param-name>
+	    <param-value>jdbc:xxxx:xxxx</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>user</param-name>
+	    <param-value>scott</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>password</param-name>
+	    <param-value>1234</param-value>
+	</context-param>
+	
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	    <listener-class>webapp.listener.MyListener</listener-class>
 	</listener>
-  
+
+
 </web-app>
