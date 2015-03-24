@@ -6,6 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 <context:property-placeholder location="classpath:/webapp/spring/db.properties"/>
+<context:component-scan base-package="webapp.service"/>
 
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="${oracle.className}"/>

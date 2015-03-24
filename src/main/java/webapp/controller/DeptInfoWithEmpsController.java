@@ -65,7 +65,6 @@ public class DeptInfoWithEmpsController extends HttpServlet {
 		String param = request.getParameter("deptno");
 		
 		int deptno = 10;
-		
 		deptno = Integer.parseInt(param);
 		
 		DeptInfoService service = factory.getBean(DeptInfoService.class);
